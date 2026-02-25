@@ -4,6 +4,15 @@ const initialState = {
     agentLoading: false,
     uploadLoading: false,
     agents: [],
+    services: [],
+    servicePagination: {
+        totalServices: 0,
+        totalPages: 1,
+        currentPage: 1,
+        itemsPerPage: 9,
+    },
+
+    singleService: null,
     pagination: {
         totalAgents: 0,
         totalPages: 1,
@@ -177,6 +186,70 @@ const AgentReducer = createSlice({
         agentAuthExpired: (state, action) => {
             state.agentAuthExp = action.payload;
         },
+       
+
+        //for services
+       agentGetAllServicesRequest: (state) => {
+            state.agentLoading = true;
+        },
+        agentGetAllServicesSuccess: (state, action) => {
+            state.agentLoading = false;
+            state.services = action.payload.services;
+            state.servicePagination = action.payload.pagination;
+        },
+        agentGetAllServicesFail: (state, action) => {
+            state.agentLoading = false;
+            state.error = action.payload;
+        },
+
+        agentGetSingleServiceRequest: (state) => {
+            state.agentLoading = true;
+        },
+        agentGetSingleServiceSuccess: (state, action) => {
+            state.agentLoading = false;
+            state.singleService = action.payload.service;
+            state.message = action.payload.message;
+        },
+        agentGetSingleServiceFail: (state, action) => {
+            state.agentLoading = false;
+            state.error = action.payload;
+        },
+
+        agentCreateServiceRequest: (state) => {
+            state.agentLoading = true;
+        },
+        agentCreateServiceSuccess: (state, action) => {
+            state.agentLoading = false;
+            state.message = action.payload.message;
+        },
+        agentCreateServiceFail: (state, action) => {
+            state.agentLoading = false;
+            state.error = action.payload;
+        },
+
+        agentUpdateServiceRequest: (state) => {
+            state.agentLoading = true;
+        },
+        agentUpdateServiceSuccess: (state, action) => {
+            state.agentLoading = false;
+            state.message = action.payload.message;
+        },
+        agentUpdateServiceFail: (state, action) => {
+            state.agentLoading = false;
+            state.error = action.payload;
+        },
+
+        agentDeleteServiceRequest: (state) => {
+            state.agentLoading = true;
+        },
+        agentDeleteServiceSuccess: (state, action) => {
+            state.agentLoading = false;
+            state.message = action.payload.message;
+        },
+        agentDeleteServiceFail: (state, action) => {
+            state.agentLoading = false;
+            state.error = action.payload;
+        },
     }
 
 })
@@ -195,6 +268,20 @@ export const {
     agentGetBuyLeadsFail, agentGetBuyLeadsRequest, agentGetBuyLeadsSuccess,
     agentDashboardCountFail, agentDashboardCountRequest, agentDashboardCountSuccess,
     agentAuthExpired,
+    agentGetAllServicesRequest,agentGetAllServicesSuccess,
+         agentGetAllServicesFail,
+        agentGetSingleServiceRequest,
+        agentGetSingleServiceSuccess,
+        agentGetSingleServiceFail,
+        agentCreateServiceRequest,
+        agentCreateServiceSuccess,
+        agentCreateServiceFail,
+        agentUpdateServiceRequest,
+        agentUpdateServiceSuccess,
+        agentUpdateServiceFail,
+        agentDeleteServiceRequest,
+        agentDeleteServiceSuccess,
+        agentDeleteServiceFail,
 
 } = AgentReducer.actions
 

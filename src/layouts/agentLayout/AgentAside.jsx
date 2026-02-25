@@ -1,7 +1,7 @@
 import React from 'react'
 import logo from '../../assets/logo.png'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { FaXmark } from 'react-icons/fa6'
+import { FaServicestack, FaXmark } from 'react-icons/fa6'
 import { CgHomeAlt } from "react-icons/cg";
 import { CiLogout } from "react-icons/ci";
 import {
@@ -67,7 +67,11 @@ const AgentAside = ({ closeAside }) => {
             label: "New Leads",
             icon: <FaRegNewspaper size={23} />
         },
-
+ {
+            path: ["/agent/services"],
+            label: "Services",
+            icon: <FaServicestack size={23} />
+        },
     ]
 
     return (

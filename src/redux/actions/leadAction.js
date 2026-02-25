@@ -11,7 +11,7 @@ export const GetAllToLeadApi = (page = 1, limit, search = "", country = "", dest
     try {
 
         dispatch(getAllLeadToSaleRequest());
-        const { data } = await axios.get(`${server}/lead/new?page=${page}&limit=${limit}&search=${search}&country=${country}&destination=${destination}`, {
+        const { data } = await axios.get(`${server}/leads/new?page=${page}&limit=${limit}&search=${search}&country=${country}&destination=${destination}`, {
             headers: {
                 'Content-Type': 'application/json',
                 // 'Authorization': `Bearer ${localStorage.getItem("agentToken")}`
@@ -24,10 +24,10 @@ export const GetAllToLeadApi = (page = 1, limit, search = "", country = "", dest
     }
 };
 
-export const GetAllLeadApi = (page = 1, limit = 3, search = "") => async (dispatch) => {
+export const GetAllLeadApi =  (page = 1, limit = 3, search = "") => async (dispatch) => {
     try {
         dispatch(getAllLeadRequest());
-        const { data } = await axios.get(`${server}/lead?page=${page}&limit=${limit}&search=${encodeURIComponent(search)}`, {
+        const { data } = await axios.get(`${server}/leads?page=${page}&limit=${limit}&search=${encodeURIComponent(search)}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("adminToken")}`
@@ -47,7 +47,7 @@ export const GetAllSoldLeadApi = (page = 1, limit = 3, search = "") => async (di
     try {
         dispatch(getAllSoldLeadRequest());
 
-        const { data } = await axios.get(`${server}/lead/test/sold?page=${page}&limit=${limit}&search=${encodeURIComponent(search)}`, {
+        const { data } = await axios.get(`${server}/leads/test/sold?page=${page}&limit=${limit}&search=${encodeURIComponent(search)}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("adminToken")}`
@@ -64,7 +64,7 @@ export const GetSingleLeadApi = (leadId) => async (dispatch) => {
     try {
         dispatch(getSingleLeadRequest());
         // alert(leadId)
-        const { data } = await axios.get(`${server}/lead/${leadId}`, {
+        const { data } = await axios.get(`${server}/leads/${leadId}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("adminToken")}`
@@ -81,7 +81,7 @@ export const DeleteSingleLeadApi = (leadId) => async (dispatch) => {
     try {
         dispatch(deleteLeadRequest());
 
-        const { data } = await axios.delete(`${server}/lead/${leadId}`, {
+        const { data } = await axios.delete(`${server}/leads/${leadId}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("adminToken")}`
@@ -99,7 +99,7 @@ export const UpdateLeadPriceApi = (leadId, price) => async (dispatch) => {
     try {
         dispatch(updateLeadDetailsRequest());
 
-        const { data } = await axios.put(`${server}/lead/${leadId}`, { price }, {
+        const { data } = await axios.put(`${server}/leads/${leadId}`, { price }, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("adminToken")}`
@@ -118,7 +118,7 @@ export const VerifyLeadApi = (leadId) => async (dispatch) => {
     try {
         dispatch(verifyLeadRequest());
 
-        const { data } = await axios.patch(`${server}/lead/verify/${leadId}`, {
+        const { data } = await axios.patch(`${server}/leads/verify/${leadId}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("adminToken")}`

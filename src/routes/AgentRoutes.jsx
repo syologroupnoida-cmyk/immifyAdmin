@@ -9,7 +9,7 @@ import AgentPayment from "../pages/agentPages/AgentPayment";
 import AgentProfile from "../pages/agentPages/AgentProfile";
 import AgentProfileEdit from "../pages/agentPages/AgentProfileEdit";
 import AgentWalletAddMoney from "../pages/agentPages/AgentWalletAddMoney";
-
+import AgentServices from '../pages/agentPages/AgentServices'
 
 
 const AgentRoutes = [
@@ -19,6 +19,7 @@ const AgentRoutes = [
         children: [
             { path: '', element: <AgentDashboard /> },
             { path: 'leads', element: <AgentLeads /> },
+            { path: 'services', element: <AgentServices /> },
             { path: 'leads/details/:leadId', element: <AgentLeadDetails /> },
             { path: 'profile', element: <AgentProfile /> },
             { path: 'profile/edit', element: <AgentProfileEdit /> },

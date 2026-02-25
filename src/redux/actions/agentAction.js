@@ -1,7 +1,18 @@
 import toast from "react-hot-toast";
 import axios from "axios";
 import { server } from "../store";
-import { agentAuthExpired, agentDashboardCountFail, agentDashboardCountRequest, agentDashboardCountSuccess, agentGetBuyLeadsFail, agentGetBuyLeadsRequest, agentGetBuyLeadsSuccess, agentLoginFail, agentLoginRequest, agentLoginSuccess, agentSignupFail, agentSignupRequest, agentSignupSuccess, deleteAgentFail, deleteAgentRequest, deleteAgentSuccess, getAgentProfileFail, getAgentProfileRequest, getAgentProfileSuccess, getAllAgentFail, getAllAgentRequest, getAllAgentSuccess, getSingleAgentFail, getSingleAgentRequest, getSingleAgentSuccess, updateAgentDocumentFail, updateAgentDocumentRequest, updateAgentDocumentSuccess, updateAgentProfileFail, updateAgentProfileRequest, updateAgentProfileSuccess, verifyAgentFail, verifyAgentRequest, verifyAgentSuccess } from "../reducers/agentReducer";
+import { agentAuthExpired, agentDashboardCountFail, agentDashboardCountRequest, agentDashboardCountSuccess, agentGetBuyLeadsFail, agentGetBuyLeadsRequest, agentGetBuyLeadsSuccess, agentLoginFail, agentLoginRequest, agentLoginSuccess, agentSignupFail, agentSignupRequest, agentSignupSuccess, deleteAgentFail, deleteAgentRequest, deleteAgentSuccess, getAgentProfileFail, getAgentProfileRequest, getAgentProfileSuccess, getAllAgentFail, getAllAgentRequest, getAllAgentSuccess, getSingleAgentFail, getSingleAgentRequest, getSingleAgentSuccess, updateAgentDocumentFail, updateAgentDocumentRequest, updateAgentDocumentSuccess, updateAgentProfileFail, updateAgentProfileRequest, updateAgentProfileSuccess, verifyAgentFail, verifyAgentRequest, verifyAgentSuccess,
+    agentGetAllServicesRequest,
+    agentGetAllServicesSuccess,
+    agentGetAllServicesFail,
+    agentGetSingleServiceRequest,
+    agentGetSingleServiceSuccess,
+    agentGetSingleServiceFail,
+    agentCreateServiceRequest,
+    agentCreateServiceFail,
+    agentCreateServiceSuccess,
+
+} from "../reducers/agentReducer";
 import { adminAuthExpired } from "../reducers/adminReducer";
 import agentApi from "../../helper/agentAxiosInstance";
 
@@ -55,6 +66,7 @@ export const GetAgentProfileApi = () => async (dispatch) => {
         dispatch(getAgentProfileRequest());
 
         const { data } = await agentApi.get(`/agent/profile`);
+        
         dispatch(getAgentProfileSuccess(data));
 
     } catch (error) {
@@ -215,5 +227,67 @@ export const VerifyAgentApi = (id, status) => async (dispatch) => {
 
     } catch (error) {
         dispatch(verifyAgentFail(error?.response?.data?.message || "faild to verify agent"));
+    }
+};
+
+
+export const AgentGetAllServicesApi = (page = 1, limit = 9, search = "", country = "") => async (dispatch) => {
+    try {
+        dispatch(agentGetAllServicesRequest());
+
+        let queryParams = `page=${page}&limit=${limit}`;
+        if (search) queryParams += `&search=${encodeURIComponent(search)}`;
+        if (country) queryParams += `&country=${encodeURIComponent(country)}`;
+
+        const { data } = await agentApi.get(`/agent/services?${queryParams}`);
+
+        console.log('data',data.data);
+        dispatch(agentGetAllServicesSuccess({services:data.data}));
+
+    } catch (error) {
+        dispatch(agentGetAllServicesFail(error?.response?.data?.message || "Failed to fetch services"));
+        if (error.response?.status == 401) {
+            localStorage.removeItem("agentToken");
+            localStorage.removeItem("agentProfile");
+            dispatch(agentAuthExpired(true));
+        }
+    }
+};
+
+// ADD THESE OTHER SERVICE APIS (optional - same pattern)
+export const AgentGetSingleServiceApi = (id) => async (dispatch) => {
+    try {
+        dispatch(agentGetSingleServiceRequest());
+        const { data } = await agentApi.get(`/agent/services/${id}`);
+        dispatch(agentGetSingleServiceSuccess(data));
+    } catch (error) {
+        dispatch(agentGetSingleServiceFail(error?.response?.data?.message || "Failed to fetch service"));
+        if (error.response?.status == 401) {
+            localStorage.removeItem("agentToken");
+            localStorage.removeItem("agentProfile");
+            dispatch(agentAuthExpired(true));
+        }
+    }
+};
+
+export const AgentCreateServiceApi = (serviceData) => async (dispatch) => {
+    try {
+        dispatch(agentCreateServiceRequest());
+
+        console.log('d',serviceData);
+
+        const { data } = await agentApi.post(`/agent/services`, serviceData);
+
+        dispatch(agentCreateServiceSuccess(data));
+        toast.success(data?.message || "Service created successfully");
+
+    } catch (error) {
+        dispatch(agentCreateServiceFail(error?.response?.data?.message || "Failed to create service"));
+        toast.error(error?.response?.data?.message || "Failed to create service");
+        if (error.response?.status == 401) {
+            localStorage.removeItem("agentToken");
+            localStorage.removeItem("agentProfile");
+            dispatch(agentAuthExpired(true));
+        }
     }
 };

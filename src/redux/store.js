@@ -15,7 +15,7 @@ const store = configureStore({
     agentContainer: agentReducer,
     leadContainer: leadReducer,
     paymentContainer: paymentReducer,
-    newsContainer: newsReducer,
+    newsContainer: newsReducer
   },
 });
 
