@@ -37,12 +37,13 @@ const AdminRoutes = [
             { path: 'payment', element: <AdminPayment /> },
             { path: 'wallet', element: <AdminWalletPayment /> },
             // { path: 'document/edit', element: <AgentDocumentEdit /> },
-            
+
             { path: 'news', element: <AdminBlog /> },
             { path: 'news/add', element: <AdminAddNewBlog /> },
             { path: 'news/edit/:newsId', element: <AdminEditNews /> },
-            
+
             { path: 'contact', element: <AdminContact /> },
+            // { path: 'login', element: <AdminLogin /> },
         ]
     }
 ]

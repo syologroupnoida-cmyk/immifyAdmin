@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { FaGraduationCap, FaBriefcase, FaPlaneDeparture, FaUsers, FaArrowRight, FaCheckCircle, FaCalculator, FaStar, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { href, useNavigate } from 'react-router-dom';
 
 const Eligibility = () => {
     const [openFaq, setOpenFaq] = useState(null);
+    const Navigate = useNavigate()
 
     const calculators = [
-        { id: 1, title: 'Australia PR', icon: <FaPlaneDeparture />, color: 'bg-blue-600', country: 'Australia' },
-        { id: 2, title: 'Canada PR', icon: <FaUsers />, color: 'bg-red-600', country: 'Canada' },
+        { id: 1, title: 'Australia PR', icon: <FaPlaneDeparture />, color: 'bg-blue-600', country: 'Australia', href: "australia-pr" },
+        { id: 2, title: 'Canada PR', icon: <FaUsers />, color: 'bg-red-600', country: 'Canada',href: "CanadaPR" },
         { id: 3, title: 'Germany Job Seeker', icon: <FaBriefcase />, color: 'bg-yellow-500', country: 'Germany' },
         { id: 4, title: 'UK Immigration', icon: <FaPlaneDeparture />, color: 'bg-purple-600', country: 'UK' },
         { id: 5, title: 'Saskatchewan SINP', icon: <FaUsers />, color: 'bg-orange-600', country: 'Saskatchewan' },
@@ -74,6 +76,7 @@ const Eligibility = () => {
                                 <div 
                                     key={calc.id} 
                                     className="bg-white p-6 flex items-center justify-between border border-gray-200 group hover:border-[#6A2B86] hover:shadow-xl transition-all cursor-pointer rounded-sm"
+                                    onClick={()=> Navigate(calc.href)}
                                 >
                                     <div className="flex items-center gap-4">
                                         <div className={`w-12 h-12 ${calc.color} text-white flex items-center justify-center text-xl rounded-full`}>
