@@ -32,11 +32,11 @@ const AgentLogin = () => {
 
     return (
         <div className="bg-[#F8FAFC] font-sans text-slate-900">
-            
+
             {/* 1. LOGIN CARD SECTION */}
             <section className="min-h-[calc(100vh-80px)] flex items-center justify-center p-4 md:p-10 border-b border-slate-200">
                 <div className="max-w-4xl w-full bg-white rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.05)] overflow-hidden flex flex-col lg:flex-row border border-slate-100">
-                    
+
                     {/* Left: Branding */}
                     <div className="lg:w-[45%] p-10 bg-slate-50 border-r border-slate-100 flex flex-col justify-center">
                         <div className="mb-8">
@@ -46,7 +46,7 @@ const AgentLogin = () => {
                             <h1 className="text-3xl font-bold text-slate-900 mb-4">Partner Login</h1>
                             <p className="text-slate-600 text-sm">Access your Immify account to manage leads and monitor your agency's performance in real-time.</p>
                         </div>
-                        
+
                         <div className="space-y-4 mb-10">
                             <div className="flex items-center gap-3 text-xs font-bold text-slate-500 uppercase tracking-widest">
                                 <span className="w-2 h-2 bg-blue-600 rounded-full"></span> 256-bit Encryption
@@ -91,9 +91,9 @@ const AgentLogin = () => {
                                     </div>
                                 </div>
 
-                                <button type="submit" 
-                                        disabled={agentLoading}
-                                        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-blue-600/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2 mt-4 disabled:bg-blue-400 disabled:cursor-not-allowed">
+                                <button type="submit"
+                                    disabled={agentLoading}
+                                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-blue-600/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2 mt-4 disabled:bg-blue-400 disabled:cursor-not-allowed">
                                     {agentLoading ? (
                                         <>
                                             <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -114,8 +114,8 @@ const AgentLogin = () => {
                 </div>
             </section>
 
-            
-           
+
+
         </div>
     );
 };

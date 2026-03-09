@@ -24,6 +24,17 @@ import PrivacyPolicy from "../pages/appPages/PrivacyPolicy";
 import BlogDetails from "../pages/appPages/BlogDetails";
 import TestimonialsPage from "../pages/appPages/TestimonialsPage";
 import MarketPlace from "../pages/appPages/MarketPlace";
+import USAPage from "../pages/appPages/StudyPages/USAPage";
+import UKPage from "../pages/appPages/StudyPages/UKPage";
+import CanadaPage from "../pages/appPages/StudyPages/CanadaPage";
+import AustraliaPage from "../pages/appPages/StudyPages/AustraliaPage";
+import GermanyPage from "../pages/appPages/StudyPages/GermanyPage";
+import IrelandPage from "../pages/appPages/StudyPages/IrelandPage";
+import AustraliaPRPage from "../pages/appPages/AustraliaPR";
+import CanadaPR from "../pages/appPages/CanadaPR";
+import GermanyOpportunityCard from "../pages/appPages/GermanyOpportunityCard";
+import AustraliaPRVisa from "../pages/appPages/AustraliaPRVisa";
+import CanadaPRVisa from "../pages/appPages/CanadaPRVisa";
 // const About = lazy(() => import("../pages/appPages/About"));
 // const Home = lazy(() => import("../pages/appPages/Home"));
 
@@ -40,7 +51,15 @@ const AppRoutes = [
             { path: 'contact', element: <Contact /> },
             { path: 'how-it-work', element: <HowItWork /> },
             { path: 'buy-Leads', element: <BuyLeads /> },
-            { path: 'migrate', element: <MigratePage /> },
+            {
+                path: "migrate",
+                children: [
+                    { index: true, element: <MigratePage /> },
+                    { path: "australia", element: <AustraliaPRVisa/> },
+                    { path: "canada", element: <CanadaPRVisa/> },
+                    { path: "germany", element: <GermanyOpportunityCard /> },
+                ]
+            },
             { path: 'work', element: <WorkPage /> },
             { path: 'study', element: <StudyPage /> },
             { path: 'visit', element: <Visit /> },
@@ -54,11 +73,23 @@ const AppRoutes = [
             { path: 'termsOfService', element: <TermsOfService /> },
             { path: 'privacyPolicy', element: <PrivacyPolicy /> },
             { path: 'testimonials', element: <TestimonialsPage /> },
-
             { path: 'buy-Lead/details/:id', element: <BuyLeadDetails /> },
             { path: 'blog/:id', element: <BlogDetails /> },
-            
-            
+
+            { path: 'study-usa', element: <USAPage /> },
+            { path: 'study-uk', element: <UKPage /> },
+            { path: 'study-canada', element: <CanadaPage /> },
+            { path: 'study-australia', element: <AustraliaPage /> },
+            { path: 'study-germany', element: <GermanyPage /> },
+            { path: 'study-ireland', element: <IrelandPage /> },
+
+            {
+                path: "/eligibility",
+                children: [
+                    { path: "australia-pr", element: <AustraliaPRPage /> },
+                    { path: "CanadaPR", element: <CanadaPR /> },]
+            },
+
             { path: 'admin-login', element: <AdminLogin /> },
             { path: 'agent-login', element: <AgentLogin /> },
             { path: 'agent-signup', element: <AgentSignup /> },

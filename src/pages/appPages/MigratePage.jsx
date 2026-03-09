@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
 import { FaPlaneDeparture, FaFileAlt, FaSearch, FaUserCheck, FaRegCheckCircle, FaPlayCircle, FaChartLine, FaGraduationCap, FaBriefcase, FaHome, FaShieldAlt, FaCheckCircle, FaDollarSign, FaClock, FaChevronDown, FaChevronUp, FaLightbulb } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const MigratePage = () => {
     const [openFaq, setOpenFaq] = useState(null);
     const [acceptTerms, setAcceptTerms] = useState(false);
+    const navigate = useNavigate()
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    };
 
     const migrationReasons = [
         { icon: <FaDollarSign />, title: 'High Income', desc: 'Earn 5x more than your current salary' },
@@ -13,9 +21,9 @@ const MigratePage = () => {
     ];
 
     const visaOptions = [
-        { title: 'Australia PR Visa', desc: 'Secure your future with permanent residency', color: 'bg-blue-600' },
-        { title: 'Canada PR Visa', desc: 'Settle permanently with Express Entry', color: 'bg-red-600' },
-        { title: 'Germany Opportunity Card', desc: 'Job seeker visa for skilled professionals', color: 'bg-yellow-600' },
+        { title: 'Australia PR Visa', desc: 'Secure your future with permanent residency', color: 'bg-blue-600', href: "/migrate/australia" },
+        { title: 'Canada PR Visa', desc: 'Settle permanently with Express Entry', color: 'bg-red-600', href: "/migrate/canada" },
+        { title: 'Germany Opportunity Card', desc: 'Job seeker visa for skilled professionals', color: 'bg-yellow-600', href: "/migrate/germany" },
         { title: 'UK Skilled Worker Visa', desc: 'Points-based system for skilled workers', color: 'bg-purple-600' },
         { title: 'USA H-1B Visa', desc: 'Work visa for specialty occupations', color: 'bg-blue-800' },
         { title: 'Portugal Job Seeker Visa', desc: 'Explore career opportunities in Europe', color: 'bg-green-600' },
@@ -49,14 +57,14 @@ const MigratePage = () => {
 
     return (
         <div className="w-full bg-white font-sans text-gray-800">
-            
+
             {/* --- HERO SECTION WITH FORM --- */}
             <div className="bg-gradient-to-br from-[#6A2B86] via-[#8B3A9C] to-[#6A2B86] text-white py-16 px-6 md:px-20 relative overflow-hidden border-b-8 border-[#E6412E]">
                 <div className="absolute inset-0 opacity-10">
                     <div className="absolute top-20 left-10 w-64 h-64 bg-white rounded-full blur-3xl"></div>
                     <div className="absolute bottom-20 right-10 w-96 h-96 bg-[#E6412E] rounded-full blur-3xl"></div>
                 </div>
-                
+
                 <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 relative z-10">
                     {/* Text Area */}
                     <div className="lg:w-1/2">
@@ -64,13 +72,13 @@ const MigratePage = () => {
                             🌍 Move Abroad with Your Family
                         </div>
                         <h1 className="text-4xl md:text-6xl font-black leading-tight mb-6">
-                            Migrate to Your<br /> 
+                            Migrate to Your<br />
                             <span className="text-yellow-300">Dream Country</span>
                         </h1>
                         <p className="text-lg opacity-90 max-w-lg mb-8">
                             Build a better future abroad. High standards of living, excellent work-life balance, and millions of job opportunities await you.
                         </p>
-                        
+
                         <div className="grid grid-cols-2 gap-4 mb-8">
                             <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg border border-white/20">
                                 <div className="text-3xl font-black text-yellow-300">281M+</div>
@@ -93,35 +101,45 @@ const MigratePage = () => {
                             <h3 className="text-2xl font-black mb-2">Get Free Consultation</h3>
                             <p className="text-sm text-gray-500">Confused? Don't know what to do?</p>
                         </div>
-                        
+
                         <div className="space-y-4">
-                            <input 
+                            {/* <input 
                                 type="text" 
                                 placeholder="Your Name" 
                                 className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-[#E6412E] outline-none transition-all" 
+                            /> */}
+                            <input
+                                type="text"
+                                placeholder="firstName"
+                                className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-[#E6412E] outline-none transition-all"
                             />
-                            <input 
-                                type="email" 
-                                placeholder="Email ID" 
-                                className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-[#E6412E] outline-none transition-all" 
+                            <input
+                                type="text"
+                                placeholder="lastName"
+                                className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-[#E6412E] outline-none transition-all"
                             />
-                            
+                            <input
+                                type="email"
+                                placeholder="Email ID"
+                                className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-[#E6412E] outline-none transition-all"
+                            />
+
                             <div className="flex gap-2">
                                 <select className="w-24 border-2 border-gray-200 rounded-lg px-2 py-3 outline-none bg-white">
                                     <option>🇮🇳 +91</option>
                                     <option>🇺🇸 +1</option>
                                     <option>🇬🇧 +44</option>
                                 </select>
-                                <input 
-                                    type="tel" 
-                                    placeholder="Mobile Number" 
-                                    className="flex-1 border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-[#E6412E] outline-none transition-all" 
+                                <input
+                                    type="tel"
+                                    placeholder="Mobile Number"
+                                    className="flex-1 border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-[#E6412E] outline-none transition-all"
                                 />
                             </div>
 
                             <div className="flex items-center gap-2 text-sm">
-                                <input 
-                                    type="checkbox" 
+                                <input
+                                    type="checkbox"
                                     checked={acceptTerms}
                                     onChange={(e) => setAcceptTerms(e.target.checked)}
                                     className="w-4 h-4"
@@ -142,7 +160,7 @@ const MigratePage = () => {
                                 <input type="checkbox" className="mt-1" />
                                 <label>I accept the <span className="text-[#E6412E] underline cursor-pointer">Terms & Conditions</span></label>
                             </div>
-                            
+
                             <button className="w-full bg-[#E6412E] text-white font-black py-4 rounded-lg uppercase tracking-wider hover:bg-black transition-all shadow-lg">
                                 Get Started
                             </button>
@@ -185,7 +203,7 @@ const MigratePage = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {visaOptions.map((visa, idx) => (
-                            <div key={idx} className="bg-white p-6 rounded-xl border border-gray-200 hover:shadow-lg transition-all group cursor-pointer">
+                            <div onClick={() => navigate(visa.href)} key={idx} className="bg-white p-6 rounded-xl border border-gray-200 hover:shadow-lg transition-all group cursor-pointer">
                                 <div className={`w-12 h-12 ${visa.color} rounded-lg flex items-center justify-center text-white text-xl mb-4`}>
                                     <FaPlaneDeparture />
                                 </div>
@@ -339,7 +357,7 @@ const MigratePage = () => {
             <div className="bg-[#E6412E] py-16 px-6 text-center text-white">
                 <h3 className="text-3xl font-black mb-4 tracking-tight">Ready to Start Your Migration Journey?</h3>
                 <p className="text-lg mb-8 opacity-90">Get professional guidance from Immify - Your trusted immigration partner</p>
-                <button className="bg-white text-[#E6412E] px-12 py-4 rounded-lg font-black hover:bg-black hover:text-white transition-all shadow-2xl">
+                <button onClick={scrollToTop} className="bg-white text-[#E6412E] px-12 py-4 rounded-lg font-black hover:bg-black hover:text-white transition-all shadow-2xl">
                     Get Free Counseling Now
                 </button>
             </div>

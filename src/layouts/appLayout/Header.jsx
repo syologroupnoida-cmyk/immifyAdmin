@@ -34,10 +34,10 @@ const Header = () => {
       {/* --- TOP BAR: Minimalist & Clean --- */}
       <div className="hidden md:flex justify-between items-center py-2 px-10 text-[12px] font-medium text-gray-500 border-b border-gray-50">
         <div className="flex gap-6">
-        
-         
+
+
         </div>
-        
+
         <div className="flex items-center gap-5">
           {isAdmin || isAgent ? (
             <span onClick={() => navigate(isAdmin ? '/admin' : '/agent')} className="px-3 py-1 bg-gray-100 rounded-full hover:bg-gray-200 cursor-pointer transition-all">
@@ -57,9 +57,23 @@ const Header = () => {
       {/* --- MAIN NAVBAR --- */}
       <div className="flex items-center justify-between px-6 md:px-10 h-20 z-index:5">
         {/* Logo */}
-        <div onClick={() => navigate('/')} className="cursor-pointer transition-transform hover:scale-105">
-          <img src={logo} alt="Immify" className="h-16  w-auto" />
-        </div>
+        {/* <div onClick={() => navigate('/')} className="flex flex-col  items-center ursor-pointer transition-transform hover:scale-105">
+          <img src={logo} alt="Immify" className="h-14  w-auto " />
+          <p className='text-center '>Your Trusted Immigration Partner</p>
+        </div> */}
+ 
+ <div 
+  onClick={() => navigate('/')} 
+  className="flex flex-col items-center cursor-pointer transition-transform duration-300  "
+>
+  <div className=" rounded-xl bg-secondary/30 mb-1 hover:bg-secondary/50 transition-colors">
+     <img src={logo} alt="Immify" className="h-10 w-auto" />
+  </div>
+  <p className="text-[10px] font-bold text-foreground/80 leading-tight text-center max-w-[150px]">
+    YOUR TRUSTED IMMIGRATION PARTNER
+  </p>
+</div>
+        
 
         {/* Desktop Navigation */}
         {!showSearchInput ? (
@@ -72,9 +86,9 @@ const Header = () => {
             <NavItem label="Coaching" dotColor="bg-blue-800" onClick={() => navigateTo('/coaching')} />
             <NavItem label="Market Place" dotColor="bg-blue-800" onClick={() => navigateTo('/marketplace')} />
             <NavItem label="Refer" dotColor="bg-green-500" onClick={() => navigateTo('/refer')} />
-            
+
             {/* Search Icon Integrated in Nav */}
-            <button 
+            <button
               onClick={() => setShowSearchInput(true)}
               className="ml-4 p-3 hover:bg-gray-50 rounded-full transition-all text-gray-400 hover:text-blue-600"
             >
@@ -83,7 +97,7 @@ const Header = () => {
           </nav>
         ) : (
           /* Animated Search Bar */
-          <div className="flex-grow max-w-2xl mx-12 animate-in fade-in slide-in-from-right-4 duration-300">
+          <div className="flex-grow max-w-2xl mx-12  animate-in fade-in slide-in-from-right-4 duration-300">
             <form onSubmit={handleSearchSubmit} className="relative flex items-center">
               <input
                 type="text"
@@ -124,7 +138,7 @@ const Header = () => {
 
 // --- Modern NavItem (Desktop) ---
 const NavItem = ({ label, dotColor, onClick }) => (
-  <div 
+  <div
     onClick={onClick}
     className="relative px-4 py-2 cursor-pointer group flex flex-col items-center"
   >
