@@ -55,7 +55,7 @@ const Header = () => {
       </div>
 
       {/* --- MAIN NAVBAR --- */}
-      <div className="flex items-center justify-between px-6 md:px-10 h-20">
+      <div className="flex items-center justify-between px-6 md:px-10 h-20 z-index:5">
         {/* Logo */}
         <div onClick={() => navigate('/')} className="cursor-pointer transition-transform hover:scale-105">
           <img src={logo} alt="Immify" className="h-16  w-auto" />
@@ -70,6 +70,7 @@ const Header = () => {
             <NavItem label="Study" dotColor="bg-orange-400" onClick={() => navigateTo('/study')} />
             <NavItem label="Visa" dotColor="bg-gray-400" onClick={() => navigateTo('/visa')} />
             <NavItem label="Coaching" dotColor="bg-blue-800" onClick={() => navigateTo('/coaching')} />
+            <NavItem label="Market Place" dotColor="bg-blue-800" onClick={() => navigateTo('/marketplace')} />
             <NavItem label="Refer" dotColor="bg-green-500" onClick={() => navigateTo('/refer')} />
             
             {/* Search Icon Integrated in Nav */}

@@ -23,6 +23,7 @@ import TermsOfService from "../pages/appPages/TermsOfService";
 import PrivacyPolicy from "../pages/appPages/PrivacyPolicy";
 import BlogDetails from "../pages/appPages/BlogDetails";
 import TestimonialsPage from "../pages/appPages/TestimonialsPage";
+import MarketPlace from "../pages/appPages/MarketPlace";
 // const About = lazy(() => import("../pages/appPages/About"));
 // const Home = lazy(() => import("../pages/appPages/Home"));
 
@@ -48,6 +49,7 @@ const AppRoutes = [
             { path: 'visa', element: <Visa /> },
             { path: 'coaching', element: <CoachingPage /> },
             { path: 'refer', element: <Refer /> },
+            { path: 'marketplace', element: <MarketPlace /> },
             { path: 'jobsite', element: <Jobsite /> },
             { path: 'termsOfService', element: <TermsOfService /> },
             { path: 'privacyPolicy', element: <PrivacyPolicy /> },

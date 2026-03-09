@@ -3,7 +3,7 @@ import { FiPhone, FiX } from "react-icons/fi";
 import { HiOutlineMail } from "react-icons/hi";
 import { FaGlobeAsia, FaPlus } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { AgentGetAllServicesApi, AgentCreateServiceApi } from "../../redux/actions/agentAction";
+import { AgentGetAllServicesApi, AgentCreateServiceApi,AgentUpdateServiceApi } from "../../redux/actions/agentAction";
 import AgentServiceTable from "../../components/agentPageComponents/AgentServiceTable";
 import toast from "react-hot-toast";
 
@@ -32,6 +32,7 @@ const AgentServices = () => {
   const [debouncedInput, setDebouncedInput] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+   const [service,setService]=useState([]);
   const itemsPerPage = 9;
 
   // Debounce search
@@ -50,19 +51,9 @@ const AgentServices = () => {
     dispatch(AgentGetAllServicesApi(currentPage, itemsPerPage, debouncedInput, selectedCountry));
   }, [dispatch, currentPage, debouncedInput, selectedCountry]);
 
-  // Handle form submit
-  const handleCreateService = async (e) => {
+
+  const handleUpdateService = async (e)=>{
     e.preventDefault();
-    
-    const serviceData = {
-      serviceTitle: formData.title,
-      category: formData.category,
-      location: formData.location,
-      price: Number(formData.price),
-      description: formData.description,
-      durationInDays: Number(formData.durationInDays) || 1,
-      images:formData.images
-    };
 
     const formDataToSend = new FormData();
   
@@ -72,6 +63,35 @@ const AgentServices = () => {
     formDataToSend.append('price', formData.price);
     formDataToSend.append('description', formData.description);
     formDataToSend.append('durationInDays', formData.durationInDays || '1');
+
+    if (formData.images && formData.images.length > 0) {
+      Array.from(formData.images).forEach(file => {
+        formDataToSend.append('images', file); 
+      });
+    }
+    try {
+      await dispatch(AgentUpdateServiceApi(formDataToSend));
+
+      setFormData({ serviceTitle: "", category: "", location: "", price: "", description: "", durationInDays: "",images:"" });
+      setShowEditForm(false);
+      // Refresh services list
+      dispatch(AgentGetAllServicesApi(currentPage, itemsPerPage, debouncedInput, selectedCountry));
+    } catch (error) {
+      console.error("Failed to create service");
+    }
+
+  }
+  // Handle form submit
+  const handleCreateService = async (e) => {
+    e.preventDefault();
+    
+    const formDataToSend = new FormData();
+  
+    formDataToSend.append('serviceTitle', formData.serviceTitle);
+    formDataToSend.append('category', formData.category);
+    formDataToSend.append('location', formData.location);
+    formDataToSend.append('price', formData.price);
+    formDataToSend.append('description', formData.description);
     formDataToSend.append('durationInDays', formData.durationInDays || '1');
 
     if (formData.images && formData.images.length > 0) {
@@ -99,15 +119,43 @@ const AgentServices = () => {
   };
 
   const check=(e)=>{
-    console.log("e",e);
+    const selected = services.find(e=>e._id==service._id)
+
+    if(selected)
+    {
+      setFormData({
+        serviceTitle:selected.serviceTitle,
+         category:selected.category,
+          location:selected.location,
+           price:selected.price,
+            description:selected.description,
+             durationInDays:selected.durationInDays,
+              images:selected.images,
+      })
+    }
     setShowEditForm(e);
   }  
+
+
+ 
+
 
   useEffect(()=>{console.log('services',services,agentLoading)},[]);
 
   useEffect(()=>{
-    console.log('editForm',editForm);
-  },[editForm]);
+    let s=services.filter(e=>e._id==editForm.serviceId);
+    
+    if(s.length>0)
+       setService(s[0]);
+  },[services,editForm]);
+
+
+ useEffect(()=>{
+    console.log('service',service);
+
+  },[service]);
+
+
 
 
   return (
@@ -130,13 +178,13 @@ const AgentServices = () => {
           My Services
         </h2>
         
-        <button
+        {!editForm.show && <button
           onClick={() => setShowAddForm(true)}
           className="flex items-center gap-2 bg-orange-600 text-white px-6 py-2 rounded-lg hover:bg-orange-700 transition font-medium shadow-md"
         >
           <FaPlus size={18} />
           Add New Service
-        </button>
+        </button>}
 
         <div className="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto">
           <input
@@ -306,11 +354,11 @@ const AgentServices = () => {
         </div>
       )}
 
-      {editForm.show && <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 p-8 mb-8 animate-in slide-in-from-top-4 duration-300">
+      {editForm.show && service && <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 p-8 mb-8 animate-in slide-in-from-top-4 duration-300">
           <div className="flex justify-between items-center mb-6">
             <h3 className="text-2xl font-bold text-orange-600">Edit Service</h3>
             <button
-              onClick={() => setShowAddForm(false)}
+              onClick={() => setShowEditForm(prev=>!prev.show)}
               className="p-2 hover:bg-gray-100 rounded-full transition"
             >
               <FiX size={20} className="text-gray-500" />
@@ -324,7 +372,7 @@ const AgentServices = () => {
                 required
                 type="text"
                 placeholder="e.g. Goa Beach Package"
-                value={formData.serviceTitle}
+                value={formData?.serviceTitle}
                 onChange={(e) => setFormData({...formData, serviceTitle: e.target.value})}
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
               />
@@ -334,7 +382,7 @@ const AgentServices = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">Category *</label>
               <select
                 required
-                value={formData.category}
+                value={service?.category}
                 onChange={(e) => setFormData({...formData, category: e.target.value})}
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
               >
@@ -353,7 +401,7 @@ const AgentServices = () => {
                 required
                 type="text"
                 placeholder="e.g. Goa, India"
-                value={formData.location}
+                value={formData?.location}
                 onChange={(e) => setFormData({...formData, location: e.target.value})}
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
               />
@@ -365,7 +413,7 @@ const AgentServices = () => {
                 required
                 type="number"
                 placeholder="12999"
-                value={formData.price}
+                value={formData?.price}
                 onChange={(e) => setFormData({...formData, price: e.target.value})}
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
               />
@@ -380,12 +428,12 @@ const AgentServices = () => {
                 onChange={(e) => {const files=Array.from(e.target.files); setFormData({...formData, images: files})}}
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
               />
-              {formData.images?.length > 0 && (
+              {service.images?.length > 0 && (
             <div className="mt-3 grid grid-cols-2 md:grid-cols-4 gap-2">
               {Array.from(formData.images).map((file, index) => (
                 <div key={index} className="relative group">
                   <img
-                    src={URL.createObjectURL(file)}
+                    src={file.url}
                     alt={`Preview ${index + 1}`}
                     className="w-full h-24 object-cover rounded-lg border"
                   />

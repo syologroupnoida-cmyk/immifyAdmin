@@ -11,6 +11,9 @@ import { agentAuthExpired, agentDashboardCountFail, agentDashboardCountRequest, 
     agentCreateServiceRequest,
     agentCreateServiceFail,
     agentCreateServiceSuccess,
+    agentUpdateServiceRequest,
+    agentUpdateServiceSuccess,
+    agentUpdateServiceFail,
 
 } from "../reducers/agentReducer";
 import { adminAuthExpired } from "../reducers/adminReducer";
@@ -290,4 +293,28 @@ export const AgentCreateServiceApi = (serviceData) => async (dispatch) => {
             dispatch(agentAuthExpired(true));
         }
     }
-};
+}
+    
+    
+export const AgentUpdateServiceApi = (serviceData) => async (dispatch) => {
+    try {
+        dispatch(agentUpdateServiceRequest());
+
+        console.log('update',serviceData);
+        
+        const { data } = await agentApi.put(`/agent/services`, serviceData);
+
+        dispatch(agentUpdateServiceSuccess(data));
+        toast.success(data?.message || "Service updated successfully");
+
+    } 
+    catch (error) {
+        dispatch(agentUpdateServiceFail(error?.response?.data?.message || "Failed to create service"));
+        toast.error(error?.response?.data?.message || "Failed to create service");
+        if (error.response?.status == 401) {
+            localStorage.removeItem("agentToken");
+            localStorage.removeItem("agentProfile");
+            dispatch(agentAuthExpired(true));
+        }
+    }
+}
