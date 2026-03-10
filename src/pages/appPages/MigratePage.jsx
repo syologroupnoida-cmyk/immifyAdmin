@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import { FaPlaneDeparture, FaFileAlt, FaSearch, FaUserCheck, FaRegCheckCircle, FaPlayCircle, FaChartLine, FaGraduationCap, FaBriefcase, FaHome, FaShieldAlt, FaCheckCircle, FaDollarSign, FaClock, FaChevronDown, FaChevronUp, FaLightbulb } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Form, useNavigate } from 'react-router-dom';
+import { CreateMigrateLead } from '../../redux/actions/leadAction';
 
 const MigratePage = () => {
     const [openFaq, setOpenFaq] = useState(null);
+    const [agreement, setAgreement]=useState(false);
     const [acceptTerms, setAcceptTerms] = useState(false);
+
+    const [mobileType, setMobileType] =useState('Mobile');
     const navigate = useNavigate()
     const scrollToTop = () => {
         window.scrollTo({
@@ -12,6 +17,8 @@ const MigratePage = () => {
             behavior: "smooth"
         });
     };
+
+
 
     const migrationReasons = [
         { icon: <FaDollarSign />, title: 'High Income', desc: 'Earn 5x more than your current salary' },
@@ -54,6 +61,23 @@ const MigratePage = () => {
         { q: 'What is Express Entry of Canada?', a: 'Express Entry is Canada\'s online immigration system for managing applications for permanent residence under economic immigration programs. It uses CRS (Comprehensive Ranking System) to rank candidates.' },
         { q: 'What is SkillSelect of Australia?', a: 'SkillSelect is Australia\'s online system for managing skilled migration. You submit an Expression of Interest (EOI) and may receive an invitation to apply if you meet requirements and score sufficient points.' },
     ];
+
+
+    const dispatch=useDispatch();
+
+    const handleSubmit=(e)=>{
+        e.preventDefault();
+
+        const form=new FormData(e.target)
+        const entries=Object.fromEntries(form.entries())
+
+        const completeEntries={...entries,visaType:'Migrate', mobileType}
+
+        console.log("form",e.target.value,completeEntries);
+
+        dispatch(CreateMigrateLead(completeEntries));
+
+    }
 
     return (
         <div className="w-full bg-white font-sans text-gray-800">
@@ -101,70 +125,67 @@ const MigratePage = () => {
                             <h3 className="text-2xl font-black mb-2">Get Free Consultation</h3>
                             <p className="text-sm text-gray-500">Confused? Don't know what to do?</p>
                         </div>
+                        <form className="space-y-4" onSubmit={(e)=>{if(agreement) handleSubmit(e); else e.preventDefault()}}>
+                            <input
+                                type="text"
+                                placeholder="Name"
+                                className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-[#E6412E] outline-none transition-all"
+                                name='name'
+                          />
 
-                        <div className="space-y-4">
-                            {/* <input 
-                                type="text" 
-                                placeholder="Your Name" 
-                                className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-[#E6412E] outline-none transition-all" 
-                            /> */}
-                            <input
-                                type="text"
-                                placeholder="firstName"
-                                className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-[#E6412E] outline-none transition-all"
-                            />
-                            <input
-                                type="text"
-                                placeholder="lastName"
-                                className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-[#E6412E] outline-none transition-all"
-                            />
                             <input
                                 type="email"
                                 placeholder="Email ID"
                                 className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-[#E6412E] outline-none transition-all"
-                            />
+                                name='email'
+                           />
 
                             <div className="flex gap-2">
-                                <select className="w-24 border-2 border-gray-200 rounded-lg px-2 py-3 outline-none bg-white">
-                                    <option>🇮🇳 +91</option>
-                                    <option>🇺🇸 +1</option>
-                                    <option>🇬🇧 +44</option>
+                                <select className="w-24 border-2 border-gray-200 rounded-lg px-2 py-3 outline-none bg-white" name="mobileExtension">
+                                    <option value={+91}>🇮🇳 +91</option>
+                                    <option value={+1}>🇺🇸 +1</option>
+                                    <option value={+44}>🇬🇧 +44</option>
                                 </select>
                                 <input
                                     type="tel"
                                     placeholder="Mobile Number"
                                     className="flex-1 border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-[#E6412E] outline-none transition-all"
-                                />
+                                    name='mobile'
+                                 />
                             </div>
 
                             <div className="flex items-center gap-2 text-sm">
                                 <input
                                     type="checkbox"
-                                    checked={acceptTerms}
-                                    onChange={(e) => setAcceptTerms(e.target.checked)}
+     
+                                    onChange={(e) => setMobileType(e.target.checked?'Whatsapp':'Mobile')}
                                     className="w-4 h-4"
+                                    name='acceptedterms'
                                 />
                                 <label className="text-gray-600">Use this as WhatsApp number</label>
                             </div>
 
-                            <select className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 outline-none bg-white focus:border-[#E6412E]">
-                                <option>Select Destination Country</option>
-                                <option>🇨🇦 Canada</option>
-                                <option>🇦🇺 Australia</option>
-                                <option>🇬🇧 United Kingdom</option>
-                                <option>🇩🇪 Germany</option>
-                                <option>🇺🇸 USA</option>
+                            <select name='destination' className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 outline-none bg-white focus:border-[#E6412E]">
+                                <option value="">Select Destination Country</option>
+                                <option value={'Canada'}>🇨🇦 Canada</option>
+                                <option value={'Australia'}>🇦🇺 Australia</option>
+                                <option value={'United Kingdom'}>🇬🇧 United Kingdom</option>
+                                <option value={'Germany'}>🇩🇪 Germany</option>
+                                <option value={'USA'}>🇺🇸 USA</option>
                             </select>
 
                             <div className="flex items-start gap-2 text-xs text-gray-500">
-                                <input type="checkbox" className="mt-1" />
+                                <input type="checkbox" className="mt-1" name='agreement' onChange={()=>setAgreement(prev=>!prev)} />
                                 <label>I accept the <span className="text-[#E6412E] underline cursor-pointer">Terms & Conditions</span></label>
                             </div>
 
-                            <button className="w-full bg-[#E6412E] text-white font-black py-4 rounded-lg uppercase tracking-wider hover:bg-black transition-all shadow-lg">
+                            <button type='submit' className="w-full bg-[#E6412E] text-white font-black py-4 rounded-lg uppercase tracking-wider hover:bg-black transition-all shadow-lg">
                                 Get Started
                             </button>
-                        </div>
+                        </form>
+
+
+
                     </div>
                 </div>
             </div>

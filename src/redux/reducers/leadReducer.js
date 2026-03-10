@@ -18,11 +18,12 @@ const initialState = {
         itemsPerPage: 9,
     },
 }
+
 const LeadReducer = createSlice({
     name: 'lead',
     initialState,
-    reducers: {
 
+    reducers: {
         getAllLeadToSaleRequest: (state) => {
             state.leadLoading = true;
         },
@@ -105,7 +106,17 @@ const LeadReducer = createSlice({
             state.error = action.payload;
         },
 
-
+       createLeadRequest:(state)=>{
+           state.leadLoading = true;
+       },
+       createLeadSuccess:(state,action)=>{
+          state.leadLoading=false,
+          state.message = action.payload.message
+       },
+       createLeadFail:(state,action)=>{
+           state.leadLoading=false,
+           state.error = action.payload
+       },
 
         verifyLeadRequest: (state) => {
             state.leadLoading = true;
@@ -129,7 +140,8 @@ export const {
     updateLeadDetailsFail, updateLeadDetailsRequest, updateLeadDetailsSuccess,
     getAllSoldLeadFail, getAllSoldLeadRequest, getAllSoldLeadSuccess,
     getAllLeadToSaleFail, getAllLeadToSaleRequest, getAllLeadToSaleSuccess,
-    verifyLeadFail,verifyLeadRequest,verifyLeadSuccess
+    verifyLeadFail,verifyLeadRequest,verifyLeadSuccess,
+    createLeadFail,createLeadSuccess,createLeadRequest
 
 } = LeadReducer.actions
 

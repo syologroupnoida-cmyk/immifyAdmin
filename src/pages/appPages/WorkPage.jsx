@@ -1,9 +1,32 @@
 import React, { useState } from 'react';
 import { FaBriefcase, FaGlobeAmericas, FaUserTie, FaCheckDouble, FaPlayCircle, FaArrowRight, FaDollarSign, FaClock, FaChartLine, FaShieldAlt, FaCheckCircle, FaLightbulb, FaChevronDown, FaChevronUp, FaGraduationCap, FaHospital, FaCode, FaBuilding } from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
+import { CreateWorkLead } from '../../redux/actions/leadAction';
 
 const WorkPage = () => {
     const [openFaq, setOpenFaq] = useState(null);
+    const [agreement, setAgreement]=useState(false);
     const [acceptTerms, setAcceptTerms] = useState(false);
+
+    const [mobileType, setMobileType] =useState('Mobile');
+
+    const dispatch=useDispatch();
+
+
+    const handleSubmit=(e)=>{
+        e.preventDefault();
+
+        const form= new FormData(e.target);
+        const data= Object.fromEntries(form.entries());
+        
+        const completeEntries= {...data,visaType:'WorkVisa',mobileType};
+
+        console.log("form",e.target.value,completeEntries);
+
+        dispatch(CreateWorkLead(completeEntries));
+
+    }
+
 
     const workBenefits = [
         { icon: <FaDollarSign />, title: '5x Higher Income', desc: 'Earn significantly more than your current salary' },
@@ -107,60 +130,64 @@ const WorkPage = () => {
                             <p className="text-sm text-gray-500">Don't know what to do? Get Free Consultation</p>
                         </div>
                         
-                        <div className="space-y-4">
+                    <form className="space-y-4" onSubmit={(e)=>{if(agreement) handleSubmit(e); else e.preventDefault()}}>
+
                             <input 
                                 type="text" 
                                 placeholder="Your Name" 
                                 className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-[#E6412E] outline-none transition-all" 
-                            />
+                                name='name'
+                             />
                             <input 
                                 type="email" 
                                 placeholder="Email ID" 
                                 className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-[#E6412E] outline-none transition-all" 
+                                name='email'
                             />
                             
                             <div className="flex gap-2">
-                                <select className="w-24 border-2 border-gray-200 rounded-lg px-2 py-3 outline-none bg-white">
-                                    <option>🇮🇳 +91</option>
-                                    <option>🇺🇸 +1</option>
-                                    <option>🇬🇧 +44</option>
+                                <select name='mobileExtension' className="w-24 border-2 border-gray-200 rounded-lg px-2 py-3 outline-none bg-white">
+                                    <option value={91}>🇮🇳 +91</option>
+                                    <option value={1}>🇺🇸 +1</option>
+                                    <option value={44}>🇬🇧 +44</option>
                                 </select>
                                 <input 
                                     type="tel" 
                                     placeholder="Mobile Number" 
                                     className="flex-1 border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-[#E6412E] outline-none transition-all" 
+                                    name='mobile'
                                 />
                             </div>
 
                             <div className="flex items-center gap-2 text-sm">
                                 <input 
                                     type="checkbox" 
-                                    checked={acceptTerms}
-                                    onChange={(e) => setAcceptTerms(e.target.checked)}
+                                    onChange={(e) => setMobileType(e.target.checked?'Whatsapp':'Mobile')}
                                     className="w-4 h-4"
+                                    name='acceptTerms'
                                 />
                                 <label className="text-gray-600">Use this as WhatsApp number</label>
                             </div>
 
-                            <select className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 outline-none bg-white focus:border-[#E6412E]">
-                                <option>Select Destination Country</option>
-                                <option>🇨🇦 Canada</option>
-                                <option>🇦🇺 Australia</option>
-                                <option>🇬🇧 United Kingdom</option>
-                                <option>🇩🇪 Germany</option>
-                                <option>🇺🇸 USA</option>
-                                <option>🇦🇪 UAE</option>
+                            <select name='destination' className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 outline-none bg-white focus:border-[#E6412E]">
+                                <option value=''>Select Destination Country</option>
+                                <option value='Canada'>🇨🇦 Canada</option>
+                                <option value='Australia'>🇦🇺 Australia</option>
+                                <option value='United Kingdom'>🇬🇧 United Kingdom</option>
+                                <option value='Germany'>🇩🇪 Germany</option>
+                                <option value='USA'>🇺🇸 USA</option>
+                                <option value='UAE'>🇦🇪 UAE</option>
                             </select>
 
                             <div className="flex items-start gap-2 text-xs text-gray-500">
-                                <input type="checkbox" className="mt-1" />
+                                <input type="checkbox" className="mt-1" name='agreement' onChange={()=>setAgreement(prev=>!prev)}/>
                                 <label>I accept the <span className="text-[#E6412E] underline cursor-pointer">Terms & Conditions</span></label>
                             </div>
                             
                             <button className="w-full bg-[#E6412E] text-white font-black py-4 rounded-lg uppercase tracking-wider hover:bg-black transition-all shadow-lg">
                                 Get Started
                             </button>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>

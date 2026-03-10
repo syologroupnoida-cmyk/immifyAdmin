@@ -1,10 +1,7 @@
 import toast from "react-hot-toast";
 import axios from "axios";
 import { server } from "../store";
-import { deleteLeadFail, deleteLeadRequest, deleteLeadSuccess, getAllLeadFail, getAllLeadRequest, getAllLeadSuccess, getAllLeadToSaleFail, getAllLeadToSaleRequest, getAllLeadToSaleSuccess, getAllSoldLeadFail, getAllSoldLeadRequest, getAllSoldLeadSuccess, getSingleLeadFail, getSingleLeadRequest, getSingleLeadSuccess, updateLeadDetailsFail, updateLeadDetailsRequest, updateLeadDetailsSuccess, verifyLeadFail, verifyLeadRequest, verifyLeadSuccess } from "../reducers/leadReducer";
-
-
-
+import { createLeadFail, createLeadRequest, createLeadSuccess, deleteLeadFail, deleteLeadRequest, deleteLeadSuccess, getAllLeadFail, getAllLeadRequest, getAllLeadSuccess, getAllLeadToSaleFail, getAllLeadToSaleRequest, getAllLeadToSaleSuccess, getAllSoldLeadFail, getAllSoldLeadRequest, getAllSoldLeadSuccess, getSingleLeadFail, getSingleLeadRequest, getSingleLeadSuccess, updateLeadDetailsFail, updateLeadDetailsRequest, updateLeadDetailsSuccess, verifyLeadFail, verifyLeadRequest, verifyLeadSuccess } from "../reducers/leadReducer";
 
 
 export const GetAllToLeadApi = (page = 1, limit, search = "", country = "", destination = "") => async (dispatch) => {
@@ -132,5 +129,37 @@ export const VerifyLeadApi = (leadId) => async (dispatch) => {
         dispatch(verifyLeadFail(error?.response?.data?.message || "something went wrong"));
     }
 };
+
+
+export const CreateMigrateLead=(info)=>async (dispatch) => {
+    try{
+
+        console.log('info',info);
+        dispatch(createLeadRequest());
+
+        const { data } = await axios.post(`${server}/leads/userLead/migrate-work`, info);
+
+        dispatch(createLeadSuccess(data));
+         toast.success(data.message ? data.message : 'lead submitted successfully')
+    }
+    catch(error){
+        dispatch(createLeadFail(error?.response?.data?.message || "something went wrong"));
+    }
+}
+
+export const CreateWorkLead=(info)=>async (dispatch) => {
+    try{
+        console.log('info',info);
+        dispatch(createLeadRequest());
+
+        const { data } = await axios.post(`${server}/leads/userLead/work`, info);
+
+        dispatch(createLeadSuccess(data));
+         toast.success(data.message ? data.message : 'lead submitted successfully')
+    }
+    catch(error){
+        dispatch(createLeadFail(error?.response?.data?.message || "something went wrong"));
+    }
+}
 
 
