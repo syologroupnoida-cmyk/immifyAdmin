@@ -157,7 +157,6 @@ const MigratePage = () => {
                             <div className="flex items-center gap-2 text-sm">
                                 <input
                                     type="checkbox"
-     
                                     onChange={(e) => setMobileType(e.target.checked?'Whatsapp':'Mobile')}
                                     className="w-4 h-4"
                                     name='acceptedterms'
