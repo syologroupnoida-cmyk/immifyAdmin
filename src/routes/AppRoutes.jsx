@@ -35,6 +35,7 @@ import CanadaPR from "../pages/appPages/CanadaPR";
 import GermanyOpportunityCard from "../pages/appPages/GermanyOpportunityCard";
 import AustraliaPRVisa from "../pages/appPages/AustraliaPRVisa";
 import CanadaPRVisa from "../pages/appPages/CanadaPRVisa";
+import CountryWorkVisaPage from "../pages/appPages/CountryWorkVisa";
 // const About = lazy(() => import("../pages/appPages/About"));
 // const Home = lazy(() => import("../pages/appPages/Home"));
 
@@ -61,6 +62,7 @@ const AppRoutes = [
                 ]
             },
             { path: 'work', element: <WorkPage /> },
+            { path: "/work/:country", element: <CountryWorkVisaPage />},
             { path: 'study', element: <StudyPage /> },
             { path: 'visit', element: <Visit /> },
             { path: 'search', element: <Search /> },

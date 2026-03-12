@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaBriefcase, FaGlobeAmericas, FaUserTie, FaCheckDouble, FaPlayCircle, FaArrowRight, FaDollarSign, FaClock, FaChartLine, FaShieldAlt, FaCheckCircle, FaLightbulb, FaChevronDown, FaChevronUp, FaGraduationCap, FaHospital, FaCode, FaBuilding } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { CreateWorkLead } from '../../redux/actions/leadAction';
+import { Link } from 'react-router-dom';
 
 const WorkPage = () => {
     const [openFaq, setOpenFaq] = useState(null);
@@ -82,6 +83,16 @@ const WorkPage = () => {
         { q: 'What is the maximum duration of the work permit?', a: 'Duration varies: Temporary work permits last 2-4 years and are renewable. Permanent work permits last 5+ years with pathway to PR. Some countries like Canada allow extending work permits multiple times.' },
         { q: 'What would you suggest I do first, get a job or apply for work permit/PR?', a: 'For most countries, you need a job offer first to apply for work permit. However, Canada Express Entry and Australia SkillSelect allow you to create a profile first. Use our Job Search Services to find jobs and we help with visa process.' },
     ];
+
+    const visaSlugMap = {
+    'Australia Work Visa': 'australia',
+    'Canada Work Permit': 'canada',
+    'Germany Opportunity Card': 'germany',
+    'UK Skilled Worker': 'united-kingdom',
+    'USA H-1B Visa': 'usa',
+    'UAE Work Permit': 'uae',
+   };
+
 
     return (
         <div className="w-full bg-white font-sans text-gray-800">
@@ -251,9 +262,11 @@ const WorkPage = () => {
                                     <h4 className="font-bold text-lg group-hover:text-[#6A2B86]">{visa.title}</h4>
                                 </div>
                                 <p className="text-sm text-gray-600 mb-4">{visa.desc}</p>
+                                <Link to={`/work/${visaSlugMap[visa.title]}`}>
                                 <button className="text-[#E6412E] font-bold text-sm hover:underline flex items-center gap-2">
                                     Learn More <FaArrowRight />
                                 </button>
+                            </Link>
                             </div>
                         ))}
                     </div>
